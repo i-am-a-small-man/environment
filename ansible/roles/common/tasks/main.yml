@@ -1,0 +1,19 @@
+---
+# This playbook contains common plays that will be run on all nodes.
+
+- name: Install ntp 
+  sudo: yes
+  yum: name=ntp state=present
+
+- name: Configure ntp file
+  sudo: yes
+  template: src=ntp.conf.j2 dest=/etc/ntp.conf
+
+- name: Start the ntp service
+  sudo: yes
+  service: name=ntpd state=started enabled=yes
+
+- name: Iptables is enabled and stopped
+  sudo: yes
+  service: name=iptables state=stopped enabled=yes
+
