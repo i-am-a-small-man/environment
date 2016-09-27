@@ -1,7 +1,0 @@
----
-# These tasks install http and the php modules.
-
-- include: install_httpd.yml
-- include: install_php.yml
-- include: install_composer.yml
-- include: install_app.yml
