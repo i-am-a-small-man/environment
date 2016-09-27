@@ -1,0 +1,6 @@
+[webservers]
+127.0.0.1
+
+[dbervers]
+127.0.0.1
+

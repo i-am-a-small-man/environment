@@ -1,0 +1,40 @@
+---
+- name: Install php56
+  yum: pkg={{ item }} state=installed enablerepo=remi,remi-php56
+  sudo: yes
+  with_items:
+    - php
+    - php-opcache
+    - php-devel
+    - php-cli
+    - php-mbstring
+    - php-mcrypt
+    - php-mysqlnd
+    - php-phpunit-PHPUnit
+    - php-pecl-xdebug
+    - php-pecl-xhprof
+  notify:
+    - restart httpd
+
+- name: Install php-pear 
+  yum: pkg={{ item }} state=installed
+  sudo: yes
+  with_items:
+    - php-pear
+    - icu
+    - libicu-devel
+
+- name: Check install intl
+  stat: path=/usr/lib/php/modules/intl.so
+  register: is_file
+
+- name: Install intl
+  sudo: yes
+  command: pecl install intl
+  when: not is_file.stat.exists
+
+- name: Copy php.ini
+  sudo: yes
+  template: src=php.ini.j2 dest=/etc/php.ini
+  notify:
+    - restart httpd

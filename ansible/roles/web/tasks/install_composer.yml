@@ -1,0 +1,16 @@
+---
+- name: Composer install
+  sudo: yes
+  shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin creates=/usr/local/bin/composer
+
+- name: Rename composer.phar → composer
+  sudo: yes
+  command: mv /usr/local/bin/composer.phar /usr/local/bin/composer creates=/usr/local/bin/composer
+
+- name: Run authorization
+  sudo: yes
+  file: path=/usr/local/bin/composer mode=a+x state=file
+
+- name: Create config.json
+  sudo: yes
+  template: src=config.json.j2 dest=~/.composer/config.json
